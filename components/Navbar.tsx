@@ -1,6 +1,6 @@
-import {Box} from "lucide-react";
+import { Box } from "lucide-react";
 import Button from "./ui/Button";
-import {useOutletContext} from "react-router";
+import { useOutletContext } from "react-router";
 
 const Navbar = () => {
     const { isSignedIn, userName, signIn, signOut } = useOutletContext<AuthContext>()
@@ -8,7 +8,7 @@ const Navbar = () => {
 
 
     const handleAuthClick = async () => {
-        if(isSignedIn) {
+        if (isSignedIn) {
             try {
                 await signOut();
             } catch (e) {
@@ -30,15 +30,15 @@ const Navbar = () => {
             <nav className="inner">
                 <div className="left">
                     <div className="brand">
-                        <Box  className="logo" />
-
-                        <span className="name">
+                        <Box className="logo" />
+                        <a href="/"><span className="name">
                             B.H.B Archi
-                        </span>
+                        </span></a>
+
                     </div>
 
                     <ul className="links">
-                        {/*<a href="#">Product</a>*/}
+                        <a href="/about">About</a>
                         {/*<a href="#">Pricing</a>*/}
                         {/*<a href="#">Community</a>*/}
                         {/*<a href="#">Enterprise</a>*/}

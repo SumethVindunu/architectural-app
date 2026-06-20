@@ -1,10 +1,10 @@
-import { useNavigate, useOutletContext, useParams} from "react-router";
-import {useEffect, useRef, useState} from "react";
-import {generate3DView} from "../../lib/ai.action";
-import {Box, Download, RefreshCcw, Share2, X} from "lucide-react";
+import { useNavigate, useOutletContext, useParams } from "react-router";
+import { useEffect, useRef, useState } from "react";
+import { generate3DView } from "../../lib/ai.action";
+import { Box, Download, RefreshCcw, Share2, X } from "lucide-react";
 import Button from "../../components/ui/Button";
-import {createProject, getProjectById} from "../../lib/puter.action";
-import {ReactCompareSlider, ReactCompareSliderImage} from "react-compare-slider";
+import { createProject, getProjectById } from "../../lib/puter.action";
+import { ReactCompareSlider, ReactCompareSliderImage } from "react-compare-slider";
 
 const visualizerId = () => {
     const { id } = useParams();
@@ -17,7 +17,7 @@ const visualizerId = () => {
     const [isProjectLoading, setIsProjectLoading] = useState(true);
 
     const [isProcessing, setIsProcessing] = useState(false);
-    const [currentImage, setCurrentImage] = useState<string | null>( null);
+    const [currentImage, setCurrentImage] = useState<string | null>(null);
 
     const handleBack = () => navigate('/');
     const handleExport = () => {
@@ -31,14 +31,14 @@ const visualizerId = () => {
         document.body.removeChild(link);
     }
 
-    const runGeneration = async (item : DesignItem) => {
-        if(!id || !item.sourceImage) return;
+    const runGeneration = async (item: DesignItem) => {
+        if (!id || !item.sourceImage) return;
 
         try {
             setIsProcessing(true);
             const result = await generate3DView({ sourceImage: item.sourceImage });
 
-            if(result.renderedImage) {
+            if (result.renderedImage) {
                 setCurrentImage(result.renderedImage);
 
                 const updatedItem = {
@@ -52,15 +52,15 @@ const visualizerId = () => {
 
                 const saved = await createProject({ item: updatedItem, visibility: "private" })
 
-                if(saved) {
+                if (saved) {
                     setProject(saved);
                     setCurrentImage(saved.renderedImage || result.renderedImage);
                 }
             }
 
         } catch (error) {
-        console.error('Generation failed: ', error)
-        }finally {
+            console.error('Generation failed: ', error)
+        } finally {
             setIsProcessing(false);
         }
     }
@@ -119,8 +119,8 @@ const visualizerId = () => {
             <nav className="topbar">
                 <div className="brand">
                     <Box className="logo" />
+                    <a href="/"><span className="name">B.H.B Archi</span></a>
 
-                    <span className="name">Roomify</span>
                 </div>
                 <Button variant="ghost" size="sm" onClick={handleBack} className="exit">
                     <X className="icon" /> Exit Editor
@@ -145,14 +145,14 @@ const visualizerId = () => {
                             >
                                 <Download className="w-4 h-4 mr-2" /> Export
                             </Button>
-                            <Button size="sm" onClick={() => {}} className="share">
+                            {/* <Button size="sm" onClick={() => {}} className="share">
                                 <Share2 className="w-4 h-4 mr-2" />
                                 Share
-                            </Button>
+                            </Button> */}
                         </div>
                     </div>
 
-                    <div className={`render-area ${isProcessing ? 'is-processing': ''}`}>
+                    <div className={`render-area ${isProcessing ? 'is-processing' : ''}`}>
                         {currentImage ? (
                             <img src={currentImage} alt="AI Render" className="render-img" />
                         ) : (
